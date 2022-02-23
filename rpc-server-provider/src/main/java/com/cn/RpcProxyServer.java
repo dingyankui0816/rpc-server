@@ -23,7 +23,7 @@ public class RpcProxyServer {
             serverSocket = new ServerSocket(port);
             while (true){
                 Socket accept = serverSocket.accept();
-                executorService.execute(new ProcessorHandler(service,accept));
+//                executorService.execute(new ProcessorHandler(service,accept));
             }
         } catch (IOException e) {
             e.printStackTrace();

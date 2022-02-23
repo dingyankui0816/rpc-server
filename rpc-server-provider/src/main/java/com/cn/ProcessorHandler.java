@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.util.Map;
 
 /**
  * @Description ProcessorHandler
@@ -18,9 +19,9 @@ public class ProcessorHandler implements Runnable {
 
     private Socket socket;
 
-    private Object service;
+    private Map<String,Object> service;
 
-    public ProcessorHandler(Object service,Socket socket) {
+    public ProcessorHandler(Map<String,Object> service,Socket socket) {
         this.service = service;
         this.socket = socket;
     }
@@ -67,6 +68,7 @@ public class ProcessorHandler implements Runnable {
     }
 
     private Object invoke(RcpRequest rcpRequest) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
         Object[] parameters = rcpRequest.getParameters();
         Class[] types = new Class[parameters.length];
         for (int i = 0; i < parameters.length; i++) {
@@ -74,7 +76,7 @@ public class ProcessorHandler implements Runnable {
         }
         Class<?> aClass = Class.forName(rcpRequest.getClassName());
         Method method = aClass.getMethod(rcpRequest.getMethodName(), types);
-        Object invoke = method.invoke(service, parameters);
+        Object invoke = method.invoke(service.get(rcpRequest.getClassName()), parameters);
         return invoke;
     }
 }
