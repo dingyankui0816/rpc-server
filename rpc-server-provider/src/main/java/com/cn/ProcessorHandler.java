@@ -76,7 +76,7 @@ public class ProcessorHandler implements Runnable {
         }
         Class<?> aClass = Class.forName(rcpRequest.getClassName());
         Method method = aClass.getMethod(rcpRequest.getMethodName(), types);
-        Object invoke = method.invoke(service.get(rcpRequest.getClassName()), parameters);
+        Object invoke = method.invoke(service.get(rcpRequest.getClassName().concat("-").concat(rcpRequest.getVersion())), parameters);
         return invoke;
     }
 }

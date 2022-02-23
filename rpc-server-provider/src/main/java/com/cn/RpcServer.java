@@ -67,7 +67,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
         }
         for (Object value : beansWithAnnotation.values()) {
             RpcService annotation = value.getClass().getAnnotation(RpcService.class);
-            beanMap.put(annotation.value().getName(),value);
+            beanMap.put(annotation.value().getName().concat("-").concat(annotation.version()),value);
         }
     }
 }
